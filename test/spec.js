@@ -23,7 +23,7 @@ describe('createError', () => {
 
     expect(message).to.equal('A foo error has occurred');
     expect(name).to.equal('FooError');
-    expect(time_thrown).to.equal(iso);
+    expect(time_thrown).to.equal(e._time_thrown);
     expect(data).to.eql({
       hello: 'world',
       foo: 'bar'
