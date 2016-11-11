@@ -2,16 +2,10 @@ import ExtendableError from 'es6-error';
 
 const errorMap = new Map();
 
-const DELIMITER = ':';
+const DELIMITER = '/::/';
 
-const serializeName = (arr = []) => arr.reduce((str, val) => `${str.length > 0 ? str + DELIMITER : str}${val}`, '');
-const deserializeName = (name = '') => {
-  const arr = [];
-  const str = name.split(DELIMITER);
-  arr.push(str.shift());
-  arr.push(str.join(DELIMITER));
-  return arr;
-};
+const serializeName = (arr = []) => arr.reduce((str, val) => `${str.length > 0 ? str + DELIMITER : str}${val.toString ? val.toString() : val}`, '');
+const deserializeName = (name = '') => name.split(DELIMITER);
 
 class ApolloError extends ExtendableError {
   constructor (name, {
@@ -24,7 +18,10 @@ class ApolloError extends ExtendableError {
 
     super(serializeName([
       name,
-      t
+      t,
+      Object.assign({}, d, {
+        toString: () => JSON.stringify(d)
+      })
     ]));
 
     this._name = name;
@@ -53,12 +50,14 @@ export const createError = (name, data = { message: 'An error has occurred' }) =
 };
 
 export const formatError = (originalError, returnNull = false) => {
-  const [ name, thrown_at ] = deserializeName(originalError.message);
+  const [ name, thrown_at, d ] = deserializeName(originalError.message);
+  const data = d !== undefined ? JSON.parse(d) : {};
   if (!name) return returnNull ? null : originalError;
   const CustomError = errorMap.get(name);
   if (!CustomError) return returnNull ? null : originalError;
   const error = new CustomError({
-    thrown_at
+    thrown_at,
+    data
   });
   return error.serialize();
 };

@@ -45,7 +45,11 @@ describe('formatError', () => {
           message: 'A foo error has occurred'
         });
 
-        const e = new FooError();
+        const e = new FooError({
+          data: {
+            oh: 'shit'
+          }
+        });
 
         const s = formatError({
           message: e.message

@@ -23,22 +23,17 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 var errorMap = new Map();
 
-var DELIMITER = ':';
+var DELIMITER = '/::/';
 
 var serializeName = function serializeName() {
   var arr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   return arr.reduce(function (str, val) {
-    return '' + (str.length > 0 ? str + DELIMITER : str) + val;
+    return '' + (str.length > 0 ? str + DELIMITER : str) + (val.toString ? val.toString() : val);
   }, '');
 };
 var deserializeName = function deserializeName() {
   var name = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-  var arr = [];
-  var str = name.split(DELIMITER);
-  arr.push(str.shift());
-  arr.push(str.join(DELIMITER));
-  return arr;
+  return name.split(DELIMITER);
 };
 
 var ApolloError = function (_ExtendableError) {
@@ -56,7 +51,11 @@ var ApolloError = function (_ExtendableError) {
     var t = arguments[2] && arguments[2].thrown_at || time_thrown;
     var d = Object.assign({}, data, arguments[2] && arguments[2].data || {});
 
-    var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t])));
+    var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t, Object.assign({}, d, {
+      toString: function toString() {
+        return JSON.stringify(d);
+      }
+    })])));
 
     _this._name = name;
     _this._humanized_message = message || '';
@@ -96,15 +95,18 @@ var formatError = exports.formatError = function formatError(originalError) {
   var returnNull = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
   var _deserializeName = deserializeName(originalError.message),
-      _deserializeName2 = _slicedToArray(_deserializeName, 2),
+      _deserializeName2 = _slicedToArray(_deserializeName, 3),
       name = _deserializeName2[0],
-      thrown_at = _deserializeName2[1];
+      thrown_at = _deserializeName2[1],
+      d = _deserializeName2[2];
 
+  var data = d !== undefined ? JSON.parse(d) : {};
   if (!name) return returnNull ? null : originalError;
   var CustomError = errorMap.get(name);
   if (!CustomError) return returnNull ? null : originalError;
   var error = new CustomError({
-    thrown_at: thrown_at
+    thrown_at: thrown_at,
+    data: data
   });
   return error.serialize();
 };
