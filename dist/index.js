@@ -76,16 +76,17 @@ var ApolloError = function (_ExtendableError) {
       var message = this._humanized_message;
       var time_thrown = this._time_thrown;
       var data = this._data;
-      var locations = this._locations || undefined;
-      var path = this._path || undefined;
-      return {
+      var locations = this._locations;
+      var path = this._path;
+      var error = {
         message: message,
         name: name,
         time_thrown: time_thrown,
-        data: data,
-        locations: locations,
-        path: path
+        data: data
       };
+      if (locations) error.locations = locations;
+      if (path) error.path = path;
+      return error;
     }
   }]);
 
