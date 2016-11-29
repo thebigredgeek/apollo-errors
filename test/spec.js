@@ -27,8 +27,8 @@ describe('createError', () => {
       },
     });
 
-    const { message, name, time_thrown, data, locations, path } = e.serialize();
-    
+    const { message, name, time_thrown, data } = e.serialize();
+
     expect(message).to.equal('A foo error has occurred');
     expect(name).to.equal('FooError');
     expect(time_thrown).to.equal(e._time_thrown);
@@ -36,8 +36,6 @@ describe('createError', () => {
       hello: 'world',
       foo: 'bar'
     });
-    expect(locations).to.be.undefined;
-    expect(path).to.be.undefined;
   });
 });
 

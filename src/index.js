@@ -38,16 +38,17 @@ class ApolloError extends ExtendableError {
     const message = this._humanized_message;
     const time_thrown = this._time_thrown;
     const data = this._data;
-    const locations = this._locations || undefined;
-    const path = this._path || undefined;
-    return {
+    const locations = this._locations;
+    const path = this._path;
+    let error = {
       message,
       name,
       time_thrown,
       data,
-      locations,
-      path,
     };
+    if (locations) error.locations = locations;
+    if (path) error.path = path;
+    return error;
   }
 }
 
