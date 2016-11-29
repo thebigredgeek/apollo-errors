@@ -8,7 +8,11 @@ describe('createError', () => {
       message: 'A foo error has occurred',
       data: {
         hello: 'world'
-      }
+      },
+      options: {
+        showLocations: false,
+        showPath: true,
+      },
     });
 
     const iso = new Date().toISOString();
@@ -16,11 +20,15 @@ describe('createError', () => {
     const e = new FooError({
       data: {
         foo: 'bar'
-      }
+      },
+      options: {
+        showLocations: true,
+        showPath: false,
+      },
     });
 
-    const { message, name, time_thrown, data } = e.serialize();
-
+    const { message, name, time_thrown, data, locations, path } = e.serialize();
+    
     expect(message).to.equal('A foo error has occurred');
     expect(name).to.equal('FooError');
     expect(time_thrown).to.equal(e._time_thrown);
@@ -28,6 +36,8 @@ describe('createError', () => {
       hello: 'world',
       foo: 'bar'
     });
+    expect(locations).to.be.undefined;
+    expect(path).to.be.undefined;
   });
 });
 

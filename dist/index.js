@@ -44,12 +44,15 @@ var ApolloError = function (_ExtendableError) {
         _ref$time_thrown = _ref.time_thrown,
         time_thrown = _ref$time_thrown === undefined ? new Date().toISOString() : _ref$time_thrown,
         _ref$data = _ref.data,
-        data = _ref$data === undefined ? {} : _ref$data;
+        data = _ref$data === undefined ? {} : _ref$data,
+        _ref$options = _ref.options,
+        options = _ref$options === undefined ? {} : _ref$options;
 
     _classCallCheck(this, ApolloError);
 
     var t = arguments[2] && arguments[2].thrown_at || time_thrown;
     var d = Object.assign({}, data, arguments[2] && arguments[2].data || {});
+    var opts = Object.assign({}, options, arguments[2] && arguments[2].options || {});
 
     var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t, Object.assign({}, d, {
       toString: function toString() {
@@ -61,6 +64,8 @@ var ApolloError = function (_ExtendableError) {
     _this._humanized_message = message || '';
     _this._time_thrown = t;
     _this._data = d;
+    _this._locations = opts.showLocations && arguments[2] && arguments[2].locations;
+    _this._path = opts.showPath && arguments[2] && arguments[2].path;
     return _this;
   }
 
@@ -71,11 +76,15 @@ var ApolloError = function (_ExtendableError) {
       var message = this._humanized_message;
       var time_thrown = this._time_thrown;
       var data = this._data;
+      var locations = this._locations || undefined;
+      var path = this._path || undefined;
       return {
         message: message,
         name: name,
         time_thrown: time_thrown,
-        data: data
+        data: data,
+        locations: locations,
+        path: path
       };
     }
   }]);
@@ -84,7 +93,7 @@ var ApolloError = function (_ExtendableError) {
 }(_es6Error2.default);
 
 var createError = exports.createError = function createError(name) {
-  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { message: 'An error has occurred' };
+  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { message: 'An error has occurred', options: options };
 
   var e = ApolloError.bind(null, name, data);
   errorMap.set(name, e);
@@ -100,13 +109,18 @@ var formatError = exports.formatError = function formatError(originalError) {
       thrown_at = _deserializeName2[1],
       d = _deserializeName2[2];
 
+  var locations = originalError.locations,
+      path = originalError.path;
+
   var data = d !== undefined ? JSON.parse(d) : {};
   if (!name) return returnNull ? null : originalError;
   var CustomError = errorMap.get(name);
   if (!CustomError) return returnNull ? null : originalError;
   var error = new CustomError({
     thrown_at: thrown_at,
-    data: data
+    data: data,
+    locations: locations,
+    path: path
   });
   return error.serialize();
 };

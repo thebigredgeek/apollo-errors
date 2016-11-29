@@ -12,35 +12,34 @@ class ApolloError extends ExtendableError {
     message,
     time_thrown = (new Date()).toISOString(),
     data = {},
-    showLocations,
-    showPath,
+    options = {},
   }) {
     const t = (arguments[2] && arguments[2].thrown_at) || time_thrown;
     const d = Object.assign({}, data, ((arguments[2] && arguments[2].data) || {}));
-    const l = showLocations && (arguments[2] && arguments[2].locations);
-    const p = showPath && (arguments[2] && arguments[2].path);
+    const opts = Object.assign({}, options, ((arguments[2] && arguments[2].options) || {}));
+
     super(serializeName([
       name,
       t,
       Object.assign({}, d, {
         toString: () => JSON.stringify(d)
-      })
+      }),
     ]));
 
     this._name = name;
     this._humanized_message = message || '';
     this._time_thrown = t;
     this._data = d;
-    this._locations = l;
-    this._path = p;
+    this._locations = (opts.showLocations && arguments[2] && arguments[2].locations)
+    this._path = (opts.showPath && arguments[2] && arguments[2].path);
   }
   serialize () {
     const name = this._name;
     const message = this._humanized_message;
     const time_thrown = this._time_thrown;
     const data = this._data;
-    const locations = this._locations;
-    const path = this._path;
+    const locations = this._locations || undefined;
+    const path = this._path || undefined;
     return {
       message,
       name,
@@ -52,7 +51,7 @@ class ApolloError extends ExtendableError {
   }
 }
 
-export const createError = (name, data = { message: 'An error has occurred', showLocations, showPath }) => {
+export const createError = (name, data = { message: 'An error has occurred', options }) => {
   const e = ApolloError.bind(null, name, data);
   errorMap.set(name, e);
   return e;
