@@ -95,7 +95,7 @@ Creates and returns an error class with the given `name` and `message`, optional
 #### Options (default):
 
  - `showPath` *(false)*: Preserve the GraphQLError `path` data.
- - `showLocations` *(false)*:  Preserve the GraphQLError `path` data. 
+ - `showLocations` *(false)*:  Preserve the GraphQLError `locations` data. 
 
 ### formatError (error, strict = false): ApolloError|Error|null
 If the error is a known ApolloError, returns the serialized form of said error.
