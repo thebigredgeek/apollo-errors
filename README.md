@@ -88,9 +88,14 @@ to an error class created and returned by `createError` documented below.  Error
 initialized with a custom `time_thrown` ISODate (default is current ISODate) and `data` object (which will be merged with data specified through `createError`, if it exists).
 
 
-### createError(name, {message: String, [data: Object]}): ApolloError
+### createError(name, {message: String, [data: Object, options: Object]}): ApolloError
 
-Creates and returns an error class with the given `name` and `message`, optionally initialized with the given `data`.  `data` passed to `createError` will later be merged with any data passed to the constructor.
+Creates and returns an error class with the given `name` and `message`, optionally initialized with the given `data` and `options`.  `data` passed to `createError` will later be merged with any data passed to the constructor.
+
+#### Options (default):
+
+ - `showPath` *(false)*: Preserve the GraphQLError `path` data.
+ - `showLocations` *(false)*:  Preserve the GraphQLError `locations` data. 
 
 ### formatError (error, strict = false): ApolloError|Error|null
 If the error is a known ApolloError, returns the serialized form of said error.

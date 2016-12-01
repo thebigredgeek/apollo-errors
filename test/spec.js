@@ -8,7 +8,11 @@ describe('createError', () => {
       message: 'A foo error has occurred',
       data: {
         hello: 'world'
-      }
+      },
+      options: {
+        showLocations: false,
+        showPath: true,
+      },
     });
 
     const iso = new Date().toISOString();
@@ -16,7 +20,11 @@ describe('createError', () => {
     const e = new FooError({
       data: {
         foo: 'bar'
-      }
+      },
+      options: {
+        showLocations: true,
+        showPath: false,
+      },
     });
 
     const { message, name, time_thrown, data } = e.serialize();
