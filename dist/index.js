@@ -52,6 +52,7 @@ var ApolloError = function (_ExtendableError) {
 
     var t = arguments[2] && arguments[2].thrown_at || time_thrown;
     var d = Object.assign({}, data, arguments[2] && arguments[2].data || {});
+    var m = arguments[2] && arguments[2].message || message;
     var opts = Object.assign({}, options, arguments[2] && arguments[2].options || {});
 
     var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t, Object.assign({}, d, {
@@ -61,7 +62,7 @@ var ApolloError = function (_ExtendableError) {
     })])));
 
     _this._name = name;
-    _this._humanized_message = message || '';
+    _this._humanized_message = m || '';
     _this._time_thrown = t;
     _this._data = d;
     _this._locations = opts.showLocations && arguments[2] && arguments[2].locations;

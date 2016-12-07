@@ -81,11 +81,11 @@ Witness glorious simplicity:
 
 ## API
 
-### ApolloError ({ [time_thrown: String, data: Object]})
+### ApolloError ({ [time_thrown: String, data: Object, message: String ]})
 
 Creates a new ApolloError object.  Note that `ApolloError` in this context refers
 to an error class created and returned by `createError` documented below.  Error can be
-initialized with a custom `time_thrown` ISODate (default is current ISODate) and `data` object (which will be merged with data specified through `createError`, if it exists).
+initialized with a custom `time_thrown` ISODate (default is current ISODate), `data` object (which will be merged with data specified through `createError`, if it exists), and `message` (which will override the message specified through `createError`).
 
 
 ### createError(name, {message: String, [data: Object, options: Object]}): ApolloError

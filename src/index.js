@@ -16,6 +16,7 @@ class ApolloError extends ExtendableError {
   }) {
     const t = (arguments[2] && arguments[2].thrown_at) || time_thrown;
     const d = Object.assign({}, data, ((arguments[2] && arguments[2].data) || {}));
+    const m = (arguments[2] && arguments[2].message) || message;
     const opts = Object.assign({}, options, ((arguments[2] && arguments[2].options) || {}));
 
     super(serializeName([
@@ -27,7 +28,7 @@ class ApolloError extends ExtendableError {
     ]));
 
     this._name = name;
-    this._humanized_message = message || '';
+    this._humanized_message = m || '';
     this._time_thrown = t;
     this._data = d;
     this._locations = (opts.showLocations && arguments[2] && arguments[2].locations)
