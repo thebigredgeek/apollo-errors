@@ -1,3 +1,6 @@
+1.2.1 / 2016-12-07
+==================
+  * Fixed a bug with overriding message serialization
 
 1.2.0 / 2016-12-07
 ==================
@@ -13,5 +16,4 @@
 
 1.0.1 / 2016-11-10
 ==================
-
   * Initial release (@thebigredgeek)

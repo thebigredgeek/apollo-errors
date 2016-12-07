@@ -4,7 +4,10 @@ const errorMap = new Map();
 
 const DELIMITER = '/::/';
 
-const serializeName = (arr = []) => arr.reduce((str, val) => `${str.length > 0 ? str + DELIMITER : str}${val.toString ? val.toString() : val}`, '');
+const serializeName = (arr = []) => arr
+  .reduce((str, val) => (
+    `${str.length > 0 ? str + DELIMITER : str}${val.toString ? val.toString() : val}`
+  ), '');
 const deserializeName = (name = '') => name.split(DELIMITER);
 
 class ApolloError extends ExtendableError {
@@ -22,6 +25,7 @@ class ApolloError extends ExtendableError {
     super(serializeName([
       name,
       t,
+      (m !== message ? m : 'null'),
       Object.assign({}, d, {
         toString: () => JSON.stringify(d)
       }),
@@ -60,13 +64,14 @@ export const createError = (name, data = { message: 'An error has occurred', opt
 };
 
 export const formatError = (originalError, returnNull = false) => {
-  const [ name, thrown_at, d ] = deserializeName(originalError.message);
+  const [ name, thrown_at, m, d ] = deserializeName(originalError.message);
   const { locations, path } = originalError;
   const data = d !== undefined ? JSON.parse(d) : {};
   if (!name) return returnNull ? null : originalError;
   const CustomError = errorMap.get(name);
   if (!CustomError) return returnNull ? null : originalError;
   const error = new CustomError({
+    message: m === 'null' ? undefined : m,
     thrown_at,
     data,
     locations,

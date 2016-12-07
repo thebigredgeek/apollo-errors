@@ -55,7 +55,7 @@ var ApolloError = function (_ExtendableError) {
     var m = arguments[2] && arguments[2].message || message;
     var opts = Object.assign({}, options, arguments[2] && arguments[2].options || {});
 
-    var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t, Object.assign({}, d, {
+    var _this = _possibleConstructorReturn(this, (ApolloError.__proto__ || Object.getPrototypeOf(ApolloError)).call(this, serializeName([name, t, m !== message ? m : 'null', Object.assign({}, d, {
       toString: function toString() {
         return JSON.stringify(d);
       }
@@ -106,10 +106,11 @@ var formatError = exports.formatError = function formatError(originalError) {
   var returnNull = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
 
   var _deserializeName = deserializeName(originalError.message),
-      _deserializeName2 = _slicedToArray(_deserializeName, 3),
+      _deserializeName2 = _slicedToArray(_deserializeName, 4),
       name = _deserializeName2[0],
       thrown_at = _deserializeName2[1],
-      d = _deserializeName2[2];
+      m = _deserializeName2[2],
+      d = _deserializeName2[3];
 
   var locations = originalError.locations,
       path = originalError.path;
@@ -119,6 +120,7 @@ var formatError = exports.formatError = function formatError(originalError) {
   var CustomError = errorMap.get(name);
   if (!CustomError) return returnNull ? null : originalError;
   var error = new CustomError({
+    message: m === 'null' ? undefined : m,
     thrown_at: thrown_at,
     data: data,
     locations: locations,
