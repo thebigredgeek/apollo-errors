@@ -103,3 +103,8 @@ If the error is a known ApolloError, returns the serialized form of said error.
 **Otherwise**, *if strict is not truthy*, returns the original error passed into formatError.
 
 **Otherwise**, *if strict is truthy*, returns null.
+
+## Support on Beerpay
+Hey dude! Help me out for a couple of :beers:!
+
+[![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
