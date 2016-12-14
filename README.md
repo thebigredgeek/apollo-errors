@@ -3,8 +3,7 @@ Machine-readable custom errors for Apollostack's GraphQL server
 
 [![NPM](https://nodei.co/npm/apollo-errors.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/apollo-errors/)
 
-[![CircleCI](https://circleci.com/gh/thebigredgeek/apollo-errors.svg?style=shield)](https://circleci.com/gh/thebigredgeek/apollo-errors/tree/master)
-
+[![CircleCI](https://circleci.com/gh/thebigredgeek/apollo-errors.svg?style=shield)](https://circleci.com/gh/thebigredgeek/apollo-errors/tree/master)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
 
 ## Installation and usage
 
@@ -103,8 +102,3 @@ If the error is a known ApolloError, returns the serialized form of said error.
 **Otherwise**, *if strict is not truthy*, returns the original error passed into formatError.
 
 **Otherwise**, *if strict is truthy*, returns null.
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
