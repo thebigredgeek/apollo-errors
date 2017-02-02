@@ -79,3 +79,5 @@ export const formatError = (originalError, returnNull = false) => {
   });
   return error.serialize();
 };
+
+export const isInstance = e => e instanceof ApolloError;

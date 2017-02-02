@@ -1,3 +1,10 @@
+
+1.3.0 / 2017-02-01
+==================
+  * Update README.md
+  * Add Beerpay's badge
+  * Added isInstance method
+
 1.2.1 / 2016-12-07
 ==================
   * Fixed a bug with overriding message serialization
