@@ -32,7 +32,7 @@ describe('createError', () => {
 
     expect(message).to.equal('A foo 2.0 error has occurred');
     expect(name).to.equal('FooError');
-    expect(time_thrown).to.equal(e._time_thrown);
+    expect(time_thrown).to.equal(e.time_thrown);
     expect(data).to.eql({
       hello: 'world',
       foo: 'bar'
@@ -62,7 +62,7 @@ describe('formatError', () => {
         });
 
         const s = formatError({
-          message: e.message
+          originalError: e
         }, false);
 
         expect(s).to.eql(e.serialize());
@@ -85,7 +85,7 @@ describe('formatError', () => {
         const e = new FooError();
 
         const s = formatError({
-          message: e.message
+          originalError: e
         }, true);
 
         expect(s).to.eql(e.serialize());

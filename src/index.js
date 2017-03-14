@@ -1,15 +1,5 @@
 import ExtendableError from 'es6-error';
 
-const errorMap = new Map();
-
-const DELIMITER = '/::/';
-
-const serializeName = (arr = []) => arr
-  .reduce((str, val) => (
-    `${str.length > 0 ? str + DELIMITER : str}${val.toString ? val.toString() : val}`
-  ), '');
-const deserializeName = (name = '') => name.split(DELIMITER);
-
 class ApolloError extends ExtendableError {
   constructor (name, {
     message,
@@ -17,67 +7,61 @@ class ApolloError extends ExtendableError {
     data = {},
     options = {},
   }) {
-    const t = (arguments[2] && arguments[2].thrown_at) || time_thrown;
+    const t = (arguments[2] && arguments[2].time_thrown) || time_thrown;
     const d = Object.assign({}, data, ((arguments[2] && arguments[2].data) || {}));
     const m = (arguments[2] && arguments[2].message) || message;
     const opts = Object.assign({}, options, ((arguments[2] && arguments[2].options) || {}));
 
-    super(serializeName([
-      name,
-      t,
-      (m !== message ? m : 'null'),
-      Object.assign({}, d, {
-        toString: () => JSON.stringify(d)
-      }),
-    ]));
+    super(m);
 
-    this._name = name;
-    this._humanized_message = m || '';
-    this._time_thrown = t;
-    this._data = d;
-    this._locations = (opts.showLocations && arguments[2] && arguments[2].locations)
-    this._path = (opts.showPath && arguments[2] && arguments[2].path);
+    this.name = name;
+    this.message = m;
+    this.time_thrown = t;
+    this.data = d;
+    this._showLocations = !!opts.showLocations;
   }
   serialize () {
-    const name = this._name;
-    const message = this._humanized_message;
-    const time_thrown = this._time_thrown;
-    const data = this._data;
-    const locations = this._locations;
-    const path = this._path;
+    const { name, message, time_thrown, data, _showLocations, path, locations } = this;
+
     let error = {
       message,
       name,
       time_thrown,
       data,
     };
-    if (locations) error.locations = locations;
-    if (path) error.path = path;
+
+    if (_showLocations) {
+      error.locations = locations;
+      error.path = path;
+    }
+
     return error;
   }
 }
 
+export const isInstance = e => e instanceof ApolloError;
+
 export const createError = (name, data = { message: 'An error has occurred', options }) => {
   const e = ApolloError.bind(null, name, data);
-  errorMap.set(name, e);
   return e;
 };
 
-export const formatError = (originalError, returnNull = false) => {
-  const [ name, thrown_at, m, d ] = deserializeName(originalError.message);
-  const { locations, path } = originalError;
-  const data = d !== undefined ? JSON.parse(d) : {};
-  if (!name) return returnNull ? null : originalError;
-  const CustomError = errorMap.get(name);
-  if (!CustomError) return returnNull ? null : originalError;
-  const error = new CustomError({
-    message: m === 'null' ? undefined : m,
-    thrown_at,
-    data,
-    locations,
-    path,
-  });
-  return error.serialize();
-};
+export const formatError = (error, returnNull = false) => {
+  const originalError = error ? error.originalError || error : null;
 
-export const isInstance = e => e instanceof ApolloError;
+  if (!originalError) return returnNull ? null : error;
+
+  const { name } = originalError;
+
+  if (!name || !isInstance(originalError)) return returnNull ? null : error;
+
+  const { time_thrown, message, data, _showLocations } = originalError;
+
+  if (_showLocations) {
+    const { locations, path } = error;
+    originalError.locations = locations;
+    originalError.path = path;
+  }
+
+  return originalError.serialize();
+};
