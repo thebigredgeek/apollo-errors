@@ -1,4 +1,9 @@
 
+1.4.0 / 2017-03-14
+==================
+  * Feature: (BREAKING) Rely on error.originalError and fail back to error for formatError rather than serializing body into message
+  * Docs: Add docs for `isInstance`
+
 1.3.0 / 2017-02-01
 ==================
   * Docs: Update README.md (@thebigredgeek)
