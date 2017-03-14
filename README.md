@@ -102,3 +102,6 @@ If the error is a known ApolloError, returns the serialized form of said error.
 **Otherwise**, *if strict is not truthy*, returns the original error passed into formatError.
 
 **Otherwise**, *if strict is truthy*, returns null.
+
+### isInstance (error): Boolean
+Returns true if the error is an instance of an ApolloError.  Otherwise, returns false
