@@ -5,6 +5,10 @@ Machine-readable custom errors for Apollostack's GraphQL server
 
 [![CircleCI](https://circleci.com/gh/thebigredgeek/apollo-errors.svg?style=shield)](https://circleci.com/gh/thebigredgeek/apollo-errors/tree/master)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
 
+## Example from Apollo Day
+
+[![Authentication and Error Handling in GraphQL](https://img.youtube.com/vi/xaorvBjCE7A/0.jpg)](https://www.youtube.com/watch?v=xaorvBjCE7A)
+
 ## Installation and usage
 
 Install the package:
