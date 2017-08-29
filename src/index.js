@@ -1,4 +1,8 @@
+import assert from 'assert';
 import ExtendableError from 'es6-error';
+
+const isString = d => Object.prototype.toString.call(d) === '[object String]';
+const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 
 class ApolloError extends ExtendableError {
   constructor (name, {
@@ -41,8 +45,10 @@ class ApolloError extends ExtendableError {
 
 export const isInstance = e => e instanceof ApolloError;
 
-export const createError = (name, data = { message: 'An error has occurred', options }) => {
-  const e = ApolloError.bind(null, name, data);
+export const createError = (name, config) => {
+  assert(isObject(config), 'createError requires a config object as the second parameter');
+  assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
+  const e = ApolloError.bind(null, name, config);
   return e;
 };
 

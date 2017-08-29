@@ -3,39 +3,65 @@ import { expect } from 'chai';
 import { createError, formatError } from '../dist';
 
 describe('createError', () => {
-  it('returns an error that serializes properly', () => {
-    const FooError = createError('FooError', {
-      message: 'A foo error has occurred',
-      data: {
-        hello: 'world'
-      },
-      options: {
-        showLocations: false,
-        showPath: true,
-      },
-    });
+  context('when properly used', () => {
+    it('returns an error that serializes properly', () => {
+      const FooError = createError('FooError', {
+        message: 'A foo error has occurred',
+        data: {
+          hello: 'world'
+        },
+        options: {
+          showLocations: false,
+          showPath: true,
+        },
+      });
 
-    const iso = new Date().toISOString();
+      const iso = new Date().toISOString();
 
-    const e = new FooError({
-      message: 'A foo 2.0 error has occurred',
-      data: {
+      const e = new FooError({
+        message: 'A foo 2.0 error has occurred',
+        data: {
+          foo: 'bar'
+        },
+        options: {
+          showLocations: true,
+          showPath: false,
+        },
+      });
+
+      const { message, name, time_thrown, data } = e.serialize();
+
+      expect(message).to.equal('A foo 2.0 error has occurred');
+      expect(name).to.equal('FooError');
+      expect(time_thrown).to.equal(e.time_thrown);
+      expect(data).to.eql({
+        hello: 'world',
         foo: 'bar'
-      },
-      options: {
-        showLocations: true,
-        showPath: false,
-      },
+      });
     });
-
-    const { message, name, time_thrown, data } = e.serialize();
-
-    expect(message).to.equal('A foo 2.0 error has occurred');
-    expect(name).to.equal('FooError');
-    expect(time_thrown).to.equal(e.time_thrown);
-    expect(data).to.eql({
-      hello: 'world',
-      foo: 'bar'
+  });
+  context('when missing a config as the second parameter', () => {
+    it('throws an assertion error with a useful message', () => {
+      try {
+        createError('FooError');
+        throw new Error('did not throw as expected');
+      } catch (err) {
+        expect(err.name).to.equal('AssertionError [ERR_ASSERTION]');
+        expect(err.message).to.equal('createError requires a config object as the second parameter');
+      }
+    });
+  });
+  context('when missing a message from the config object passed as the second parameter', () => {
+    it('throws an assertion error with a useful message', () => {
+      try {
+        createError('FooError', {
+          
+        });
+        throw new Error('did not throw as expected');
+      } catch (err) {
+        expect(err.name).to.equal('AssertionError [ERR_ASSERTION]');
+        expect(err.message).to.equal('createError requires a "message" property on the config object passed as the second parameter')
+      }
     });
   });
 });

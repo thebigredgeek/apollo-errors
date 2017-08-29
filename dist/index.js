@@ -7,6 +7,10 @@ exports.formatError = exports.createError = exports.isInstance = undefined;
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+var _assert = require('assert');
+
+var _assert2 = _interopRequireDefault(_assert);
+
 var _es6Error = require('es6-error');
 
 var _es6Error2 = _interopRequireDefault(_es6Error);
@@ -18,6 +22,13 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var isString = function isString(d) {
+  return Object.prototype.toString.call(d) === '[object String]';
+};
+var isObject = function isObject(d) {
+  return Object.prototype.toString.call(d) === '[object Object]';
+};
 
 var ApolloError = function (_ExtendableError) {
   _inherits(ApolloError, _ExtendableError);
@@ -83,10 +94,10 @@ var isInstance = exports.isInstance = function isInstance(e) {
   return e instanceof ApolloError;
 };
 
-var createError = exports.createError = function createError(name) {
-  var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : { message: 'An error has occurred', options: options };
-
-  var e = ApolloError.bind(null, name, data);
+var createError = exports.createError = function createError(name, config) {
+  (0, _assert2.default)(isObject(config), 'createError requires a config object as the second parameter');
+  (0, _assert2.default)(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
+  var e = ApolloError.bind(null, name, config);
   return e;
 };
 

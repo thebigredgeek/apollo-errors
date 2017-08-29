@@ -38,3 +38,6 @@ jspm_packages
 
 # Yarn
 yarn.lock
+
+# Direnv
+.envrc
