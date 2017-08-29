@@ -1,4 +1,9 @@
 
+1.5.0 / 2017-08-29
+==================
+
+  * Fix: fixed syntax error for createError config parameter (@thebigredgeek)
+
 1.4.0 / 2017-03-14
 ==================
   * Feature: (BREAKING) Rely on error.originalError and fail back to error for formatError rather than serializing body into message
