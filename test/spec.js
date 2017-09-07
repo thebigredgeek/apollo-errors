@@ -1,6 +1,9 @@
 import { expect } from 'chai';
+import assert from 'assert';
 
 import { createError, formatError } from '../dist';
+
+const { AssertionError } = assert;
 
 describe('createError', () => {
   context('when properly used', () => {
@@ -46,7 +49,7 @@ describe('createError', () => {
         createError('FooError');
         throw new Error('did not throw as expected');
       } catch (err) {
-        expect(err.name).to.equal('AssertionError [ERR_ASSERTION]');
+        expect(err instanceof AssertionError).to.be.true;
         expect(err.message).to.equal('createError requires a config object as the second parameter');
       }
     });
@@ -55,11 +58,11 @@ describe('createError', () => {
     it('throws an assertion error with a useful message', () => {
       try {
         createError('FooError', {
-          
+
         });
         throw new Error('did not throw as expected');
       } catch (err) {
-        expect(err.name).to.equal('AssertionError [ERR_ASSERTION]');
+        expect(err instanceof AssertionError).to.be.true;
         expect(err.message).to.equal('createError requires a "message" property on the config object passed as the second parameter')
       }
     });

@@ -1,4 +1,10 @@
 
+1.5.1 / 2017-09-07
+==================
+
+  * Package: Added new keywords (@thebigredgeek)
+  * Docs: Updated docs to reference [apollo-server](https://dev.apollodata.com/tools/apollo-server/setup.html) (@thebigredgeek) 
+
 1.5.0 / 2017-08-29
 ==================
 
