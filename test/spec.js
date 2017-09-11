@@ -18,7 +18,6 @@ describe('createError', () => {
           showPath: true,
         },
       });
-
       const iso = new Date().toISOString();
 
       const e = new FooError({
@@ -31,14 +30,12 @@ describe('createError', () => {
           showPath: false,
         },
       });
-
       const { message, name, time_thrown, data } = e.serialize();
 
       expect(message).to.equal('A foo 2.0 error has occurred');
       expect(name).to.equal('FooError');
       expect(time_thrown).to.equal(e.time_thrown);
       expect(data).to.eql({
-        hello: 'world',
         foo: 'bar'
       });
     });

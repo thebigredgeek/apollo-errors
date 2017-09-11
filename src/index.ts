@@ -1,10 +1,16 @@
-import assert from 'assert';
-import ExtendableError from 'es6-error';
+import * as assert from 'assert';
+import ExtendableError from 'extendable-error';
 
 const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
-
 class ApolloError extends ExtendableError {
+  name: any;
+  message: any;
+  time_thrown: any;
+  data: any;
+  path: any;
+  locations: any;
+  _showLocations: any;
   constructor (name, {
     message,
     time_thrown = (new Date()).toISOString(),
@@ -12,9 +18,9 @@ class ApolloError extends ExtendableError {
     options = {},
   }) {
     const t = (arguments[2] && arguments[2].time_thrown) || time_thrown;
-    const d = Object.assign({}, data, ((arguments[2] && arguments[2].data) || {}));
+    const d = ((arguments[2] && arguments[2].data) || {})
     const m = (arguments[2] && arguments[2].message) || message;
-    const opts = Object.assign({}, options, ((arguments[2] && arguments[2].options) || {}));
+    const opts = ((arguments[2] && arguments[2].options) || {})
 
     super(m);
 
@@ -32,6 +38,8 @@ class ApolloError extends ExtendableError {
       name,
       time_thrown,
       data,
+      path,
+      locations
     };
 
     if (_showLocations) {
