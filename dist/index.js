@@ -16,13 +16,12 @@ var isString = function (d) { return Object.prototype.toString.call(d) === '[obj
 var isObject = function (d) { return Object.prototype.toString.call(d) === '[object Object]'; };
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
-    function ApolloError(name, _a) {
-        var message = _a.message, _b = _a.time_thrown, time_thrown = _b === void 0 ? (new Date()).toISOString() : _b, _c = _a.data, data = _c === void 0 ? {} : _c, _d = _a.options, options = _d === void 0 ? {} : _d;
+    function ApolloError(name, config) {
         var _this = this;
-        var t = (arguments[2] && arguments[2].time_thrown) || time_thrown;
-        var d = ((arguments[2] && arguments[2].data) || {});
-        var m = (arguments[2] && arguments[2].message) || message;
-        var opts = ((arguments[2] && arguments[2].options) || {});
+        var t = (config && config.time_thrown) || (new Date()).toISOString();
+        var d = (config && config.data || {});
+        var m = (config && config.message) || '';
+        var opts = ((config && config.options) || {});
         _this = _super.call(this, m) || this;
         _this.name = name;
         _this.message = m;
@@ -51,6 +50,7 @@ var ApolloError = /** @class */ (function (_super) {
 }(extendable_error_1.default));
 exports.isInstance = function (e) { return e instanceof ApolloError; };
 exports.createError = function (name, config) {
+    console.log('config', config);
     assert(isObject(config), 'createError requires a config object as the second parameter');
     assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
     var e = ApolloError.bind(null, name, config);

@@ -3,24 +3,26 @@ import ExtendableError from 'extendable-error';
 
 const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
+interface ErrorConfig {
+  message: string;
+  time_thrown: any;
+  data: any,
+  options: any,
+}
+
 class ApolloError extends ExtendableError {
-  name: any;
-  message: any;
+  name: string;
+  message: string;
   time_thrown: any;
   data: any;
   path: any;
   locations: any;
   _showLocations: any;
-  constructor (name, {
-    message,
-    time_thrown = (new Date()).toISOString(),
-    data = {},
-    options = {},
-  }) {
-    const t = (arguments[2] && arguments[2].time_thrown) || time_thrown;
-    const d = ((arguments[2] && arguments[2].data) || {})
-    const m = (arguments[2] && arguments[2].message) || message;
-    const opts = ((arguments[2] && arguments[2].options) || {})
+  constructor (name, config: ErrorConfig) {
+    const t = (config && config.time_thrown) || (new Date()).toISOString();
+    const d = (config && config.data || {})
+    const m = (config && config.message) || '';
+    const opts = ((config && config.options) || {})
 
     super(m);
 
@@ -53,7 +55,8 @@ class ApolloError extends ExtendableError {
 
 export const isInstance = e => e instanceof ApolloError;
 
-export const createError = (name, config) => {
+export const createError = (name, config: ErrorConfig) => {
+  console.log('config', config);
   assert(isObject(config), 'createError requires a config object as the second parameter');
   assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
   const e = ApolloError.bind(null, name, config);
