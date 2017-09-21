@@ -9,6 +9,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var extendable_error_1 = require("extendable-error");
@@ -17,12 +25,12 @@ var isObject = function (d) { return Object.prototype.toString.call(d) === '[obj
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
     function ApolloError(name, config) {
-        var _this = this;
-        var t = (config && config.time_thrown) || (new Date()).toISOString();
-        var d = (config && config.data || {});
-        var m = (config && config.message) || '';
-        var opts = ((config && config.options) || {});
-        _this = _super.call(this, m) || this;
+        var _this = _super.call(this, (config && config.message) || '') || this;
+        var t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
+        var m = (arguments[2] && arguments[2].message) || '';
+        var configData = (arguments[2] && arguments[2].data) || {};
+        var d = __assign({}, _this.data, configData);
+        var opts = ((arguments[2] && arguments[2].options) || {});
         _this.name = name;
         _this.message = m;
         _this.time_thrown = t;
@@ -50,7 +58,6 @@ var ApolloError = /** @class */ (function (_super) {
 }(extendable_error_1.default));
 exports.isInstance = function (e) { return e instanceof ApolloError; };
 exports.createError = function (name, config) {
-    console.log('config', config);
     assert(isObject(config), 'createError requires a config object as the second parameter');
     assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
     var e = ApolloError.bind(null, name, config);

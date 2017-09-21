@@ -15,27 +15,28 @@ describe('createError', () => {
         },
         options: {
           showLocations: false,
-          showPath: true,
+          showPath: false,
         },
       });
       const iso = new Date().toISOString();
-
       const e = new FooError({
         message: 'A foo 2.0 error has occurred',
         data: {
+          hello: 'world',
           foo: 'bar'
         },
         options: {
           showLocations: true,
-          showPath: false,
+          showPath: true,
         },
       });
-      const { message, name, time_thrown, data } = e.serialize();
 
+      const { message, name, time_thrown, data } = e.serialize();
       expect(message).to.equal('A foo 2.0 error has occurred');
       expect(name).to.equal('FooError');
       expect(time_thrown).to.equal(e.time_thrown);
       expect(data).to.eql({
+        hello: 'world',
         foo: 'bar'
       });
     });
@@ -86,7 +87,6 @@ describe('formatError', () => {
             oh: 'shit'
           }
         });
-
         const s = formatError({
           originalError: e
         }, false);

@@ -1,6 +1,5 @@
 import * as assert from 'assert';
 import ExtendableError from 'extendable-error';
-
 const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 interface ErrorConfig {
@@ -9,7 +8,6 @@ interface ErrorConfig {
   data: any,
   options: any,
 }
-
 class ApolloError extends ExtendableError {
   name: string;
   message: string;
@@ -19,12 +17,12 @@ class ApolloError extends ExtendableError {
   locations: any;
   _showLocations: any;
   constructor (name, config: ErrorConfig) {
-    const t = (config && config.time_thrown) || (new Date()).toISOString();
-    const d = (config && config.data || {})
-    const m = (config && config.message) || '';
-    const opts = ((config && config.options) || {})
-
-    super(m);
+    super((config && config.message) || '');
+    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
+    const m = (arguments[2] && arguments[2].message) || '';
+    const configData = (arguments[2] && arguments[2].data) || {};
+    const d = {...this.data, ...configData}
+    const opts = ((arguments[2] && arguments[2].options) || {})
 
     this.name = name;
     this.message = m;
@@ -43,12 +41,10 @@ class ApolloError extends ExtendableError {
       path,
       locations
     };
-
     if (_showLocations) {
       error.locations = locations;
       error.path = path;
     }
-
     return error;
   }
 }
@@ -56,7 +52,6 @@ class ApolloError extends ExtendableError {
 export const isInstance = e => e instanceof ApolloError;
 
 export const createError = (name, config: ErrorConfig) => {
-  console.log('config', config);
   assert(isObject(config), 'createError requires a config object as the second parameter');
   assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
   const e = ApolloError.bind(null, name, config);
