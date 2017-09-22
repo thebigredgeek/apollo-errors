@@ -13,7 +13,7 @@ endif
 .FORCE:
 
 all: clean
-	npm run build
+	tsc
 
 clean: .FORCE
 	rimraf npm-debug.log dist

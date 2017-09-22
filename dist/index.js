@@ -25,7 +25,8 @@ var isObject = function (d) { return Object.prototype.toString.call(d) === '[obj
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
     function ApolloError(name, config) {
-        var _this = _super.call(this, (config && config.message) || '') || this;
+        var _this = _super.call(this, (arguments[2] && arguments[2].message) || '') || this;
+        _this._showLocations = false;
         var t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
         var m = (arguments[2] && arguments[2].message) || '';
         var configData = (arguments[2] && arguments[2].data) || {};

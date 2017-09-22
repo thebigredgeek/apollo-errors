@@ -15,7 +15,7 @@ describe('createError', () => {
         },
         options: {
           showLocations: false,
-          showPath: false,
+          showPath: true,
         },
       });
       const iso = new Date().toISOString();
@@ -27,7 +27,7 @@ describe('createError', () => {
         },
         options: {
           showLocations: true,
-          showPath: true,
+          showPath: false,
         },
       });
 

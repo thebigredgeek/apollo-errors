@@ -4,8 +4,7 @@
   "description": "Machine-readable custom errors for Apollostack's GraphQL server",
   "main": "dist/index.js",
   "scripts": {
-    "test": "make test",
-    "build": "tsc"
+    "test": "make test"
   },
   "repository": {
     "type": "git",
@@ -27,8 +26,7 @@
   "homepage": "https://github.com/thebigredgeek/apollo-errors#readme",
   "dependencies": {
     "assert": "^1.4.1",
-    "extendable-error": "^0.1.5",
-    "install": "^0.10.1"
+    "extendable-error": "^0.1.5"
   },
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -41,7 +39,6 @@
     "eslint-plugin-babel": "^3.3.0",
     "mocha": "^3.1.2",
     "rimraf": "^2.5.4",
-    "typescript": "^2.5.2",
-    "typings": "^2.1.1"
+    "typescript": "^2.5.2"
   }
 }
