@@ -13,7 +13,7 @@ endif
 .FORCE:
 
 all: clean
-	babel src -d dist --source-maps
+	tsc
 
 clean: .FORCE
 	rimraf npm-debug.log dist
