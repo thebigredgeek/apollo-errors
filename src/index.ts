@@ -7,8 +7,11 @@ const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 export interface ErrorConfig {
 	message: string;
 	time_thrown?: string;
-	data?: any,
-	options?: any,
+	data?: any;
+	options?: {
+		showPath?: boolean;
+		showLocations?: boolean;
+	},
 }
 
 export interface ErrorInfo {
