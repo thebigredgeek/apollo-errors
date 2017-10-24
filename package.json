@@ -1,44 +1,45 @@
 {
-  "name": "apollo-errors",
-  "version": "1.5.1",
-  "description": "Machine-readable custom errors for Apollostack's GraphQL server",
-  "main": "dist/index.js",
-  "scripts": {
-    "test": "make test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/thebigredgeek/apollo-errors.git"
-  },
-  "keywords": [
-    "apollostack",
-    "graphql",
-    "apollo-server",
-    "apollo-client",
-    "error",
-    "api"
-  ],
-  "author": "Andrew E. Rhyne <rhyneandrew@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/thebigredgeek/apollo-errors/issues"
-  },
-  "homepage": "https://github.com/thebigredgeek/apollo-errors#readme",
-  "dependencies": {
-    "assert": "^1.4.1",
-    "extendable-error": "^0.1.5"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.18.0",
-    "babel-core": "^6.17.0",
-    "babel-eslint": "^7.0.0",
-    "babel-preset-es2015": "^6.16.0",
-    "babel-register": "^6.18.0",
-    "chai": "^3.5.0",
-    "eslint": "^3.8.1",
-    "eslint-plugin-babel": "^3.3.0",
-    "mocha": "^3.1.2",
-    "rimraf": "^2.5.4",
-    "typescript": "^2.5.2"
-  }
+	"name": "apollo-errors",
+	"version": "1.5.1",
+	"description": "Machine-readable custom errors for Apollostack's GraphQL server",
+	"main": "dist/index.js",
+	"scripts": {
+		"test": "make test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/thebigredgeek/apollo-errors.git"
+	},
+	"keywords": [
+		"apollostack",
+		"graphql",
+		"apollo-server",
+		"apollo-client",
+		"error",
+		"api"
+	],
+	"author": "Andrew E. Rhyne <rhyneandrew@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/thebigredgeek/apollo-errors/issues"
+	},
+	"homepage": "https://github.com/thebigredgeek/apollo-errors#readme",
+	"dependencies": {
+		"assert": "^1.4.1",
+		"extendable-error": "^0.1.5"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.18.0",
+		"babel-core": "^6.17.0",
+		"babel-eslint": "^7.0.0",
+		"babel-preset-es2015": "^6.16.0",
+		"babel-register": "^6.18.0",
+		"chai": "^3.5.0",
+		"eslint": "^3.8.1",
+		"eslint-plugin-babel": "^3.3.0",
+		"mocha": "^3.1.2",
+		"rimraf": "^2.5.4",
+		"typescript": "^2.5.2"
+	},
+	"typings": "dist/index.d.ts"
 }
