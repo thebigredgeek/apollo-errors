@@ -6,9 +6,7 @@
     "sourceMap": true,
     "removeComments": false,
     "noImplicitAny": false,
-    // "allowJs": true,
     "outDir": "./dist",
-    // "emitDecoratorMetadata": true,
     "declaration": true
   },
   "include": [
