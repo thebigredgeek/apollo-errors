@@ -6,9 +6,9 @@ const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 
 export interface ErrorConfig {
 	message: string;
-	time_thrown: string;
-	data: any,
-	options: any,
+	time_thrown?: string;
+	data?: any,
+	options?: any,
 }
 
 export interface ErrorInfo {

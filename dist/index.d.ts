@@ -1,9 +1,9 @@
 import ExtendableError from 'extendable-error';
 export interface ErrorConfig {
     message: string;
-    time_thrown: string;
-    data: any;
-    options: any;
+    time_thrown?: string;
+    data?: any;
+    options?: any;
 }
 export interface ErrorInfo {
     message: string;
