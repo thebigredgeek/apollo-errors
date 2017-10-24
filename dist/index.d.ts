@@ -3,7 +3,10 @@ export interface ErrorConfig {
     message: string;
     time_thrown?: string;
     data?: any;
-    options?: any;
+    options?: {
+        showPath?: boolean;
+        showLocations?: boolean;
+    };
 }
 export interface ErrorInfo {
     message: string;
