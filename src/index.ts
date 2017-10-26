@@ -18,9 +18,9 @@ export interface ErrorInfo {
   message: string;
   name: string;
   time_thrown: string;
-  data: string;
-  path: string;
-  locations: string;
+  data?: string;
+  path?: string;
+  locations?: string;
 }
 
 export class ApolloError extends ExtendableError {
