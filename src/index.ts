@@ -47,10 +47,7 @@ class ApolloError extends ExtendableError {
       locations
       } : {} )
     };
-    if (_showLocations) {
-      error.locations = locations;
-      error.path = path;
-    }
+
     return error;
   }
 }
