@@ -1,8 +1,9 @@
 import * as assert from 'assert';
 import ExtendableError from 'extendable-error';
 
-const isString = d => Object.prototype.toString.call(d) === '[object String]';
-const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
+const isSomething = (something : string ) => d => Object.prototype.toString.call(d) === something;
+const isString = isSomething('[object String]');
+const isObject = isSomething('[object Object]');
 
 interface ErrorConfig {
   message: string;
