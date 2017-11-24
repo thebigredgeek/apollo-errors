@@ -1,14 +1,15 @@
 import * as assert from 'assert';
 import ExtendableError from 'extendable-error';
 
-const isString = d => Object.prototype.toString.call(d) === '[object String]';
-const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
+const isSomething = (something : string ) => d => Object.prototype.toString.call(d) === something;
+const isString = isSomething('[object String]');
+const isObject = isSomething('[object Object]');
 
 interface ErrorConfig {
-  message: string;
-  time_thrown: string;
-  data: any,
-  options: any,
+  message ?: string;
+  time_thrown ?: string;
+  data ?: any,
+  options ?: any,
 }
 
 class ApolloError extends ExtendableError {
@@ -20,20 +21,18 @@ class ApolloError extends ExtendableError {
   locations: any;
   _showLocations: boolean=false;
 
-  constructor (name:string, config: ErrorConfig) {
-    super((arguments[2] && arguments[2].message) || '');
-
-    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[2] && arguments[2].message) || '';
-    const configData = (arguments[2] && arguments[2].data) || {};
-    const d = {...this.data, ...configData}
-    const opts = ((arguments[2] && arguments[2].options) || {})
-
-    this.name = name;
-    this.message = m;
-    this.time_thrown = t;
-    this.data = d;
-    this._showLocations = !!opts.showLocations;
+  constructor(
+    name: string,
+    baseConfig: ErrorConfig = {},
+    extendedConfig : ErrorConfig = {}) {
+      super(baseConfig.message || extendedConfig.message || '');
+      let config = {...baseConfig, ...extendedConfig}
+      const { message, time_thrown, data, options } = config
+      this.name = name || '';
+      this.message = message ||'';
+      this.time_thrown = time_thrown || new Date().toISOString();
+      this.data = { ...this.data, ...(data || {}) };
+      this._showLocations = options && !!options.showLocations;
   }
   serialize () {
     const { name, message, time_thrown, data, _showLocations, path, locations } = this;
@@ -43,18 +42,17 @@ class ApolloError extends ExtendableError {
       name,
       time_thrown,
       data,
+      ...(_showLocations ? {
       path,
       locations
+      } : {} )
     };
-    if (_showLocations) {
-      error.locations = locations;
-      error.path = path;
-    }
+
     return error;
   }
 }
 
-export const isInstance = e => e instanceof ApolloError;
+export const isApolloError = e => e instanceof ApolloError;
 
 export const createError = (name:string, config: ErrorConfig) => {
   assert(isObject(config), 'createError requires a config object as the second parameter');
@@ -63,21 +61,22 @@ export const createError = (name:string, config: ErrorConfig) => {
   return e;
 };
 
-export const formatError = (error, returnNull = false) => {
-  const originalError = error ? error.originalError || error : null;
+export const formatError = (error = <any>{}, returnNull = false) => {
+  const returnVal = returnNull ? null : error;
 
-  if (!originalError) return returnNull ? null : error;
+  let originalError = error.originalError;
+  if (!originalError) return returnVal;
 
   const { name } = originalError;
+  if (!name || !isApolloError(originalError)) return returnVal;
 
-  if (!name || !isInstance(originalError)) return returnNull ? null : error;
-
-  const { time_thrown, message, data, _showLocations } = originalError;
-
-  if (_showLocations) {
+  if (originalError._showLocations) {
     const { locations, path } = error;
-    originalError.locations = locations;
-    originalError.path = path;
+    originalError = {
+      ...originalError,
+      locations,
+      path
+    }
   }
 
   return originalError.serialize();
