@@ -6,10 +6,10 @@ const isString = isSomething('[object String]');
 const isObject = isSomething('[object Object]');
 
 interface ErrorConfig {
-  message: string;
-  time_thrown: string;
-  data: any,
-  options: any,
+  message ?: string;
+  time_thrown ?: string;
+  data ?: any,
+  options ?: any,
 }
 
 class ApolloError extends ExtendableError {
