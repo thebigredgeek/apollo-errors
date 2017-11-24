@@ -21,20 +21,18 @@ class ApolloError extends ExtendableError {
   locations: any;
   _showLocations: boolean=false;
 
-  constructor (name:string, config: ErrorConfig) {
-    super((arguments[2] && arguments[2].message) || '');
-
-    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[2] && arguments[2].message) || '';
-    const configData = (arguments[2] && arguments[2].data) || {};
-    const d = {...this.data, ...configData}
-    const opts = ((arguments[2] && arguments[2].options) || {})
-
-    this.name = name;
-    this.message = m;
-    this.time_thrown = t;
-    this.data = d;
-    this._showLocations = !!opts.showLocations;
+  constructor(
+    name: string,
+    baseConfig: ErrorConfig = {},
+    extendedConfig : ErrorConfig = {}) {
+      super(baseConfig.message || extendedConfig.message || '');
+      let config = {...baseConfig, ...extendedConfig}
+      const { message, time_thrown, data, options } = config
+      this.name = name || '';
+      this.message = message ||'';
+      this.time_thrown = time_thrown || new Date().toISOString();
+      this.data = { ...this.data, ...(data || {}) };
+      this._showLocations = options && !!options.showLocations;
   }
   serialize () {
     const { name, message, time_thrown, data, _showLocations, path, locations } = this;
