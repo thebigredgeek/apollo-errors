@@ -55,7 +55,7 @@ class ApolloError extends ExtendableError {
   }
 }
 
-export const isInstance = e => e instanceof ApolloError;
+export const isApolloError = e => e instanceof ApolloError;
 
 export const createError = (name:string, config: ErrorConfig) => {
   assert(isObject(config), 'createError requires a config object as the second parameter');
@@ -64,16 +64,14 @@ export const createError = (name:string, config: ErrorConfig) => {
   return e;
 };
 
-export const formatError = (error, returnNull = false) => {
-  const originalError = error ? error.originalError || error : null;
+export const formatError = (error = <any>{}, returnNull = false) => {
+  const returnVal = returnNull ? null : error;
 
-  if (!originalError) return returnNull ? null : error;
+  let originalError = error.originalError;
+  if (!originalError) return returnVal;
 
   const { name } = originalError;
-
-  if (!name || !isInstance(originalError)) return returnNull ? null : error;
-
-  const { time_thrown, message, data, _showLocations } = originalError;
+  if (!name || !isApolloError(originalError)) return returnVal;
 
   if (_showLocations) {
     const { locations, path } = error;
