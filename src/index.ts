@@ -44,8 +44,10 @@ class ApolloError extends ExtendableError {
       name,
       time_thrown,
       data,
+      ...(_showLocations ? {
       path,
       locations
+      } : {} )
     };
     if (_showLocations) {
       error.locations = locations;
