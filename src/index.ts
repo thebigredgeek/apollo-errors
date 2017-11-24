@@ -73,10 +73,13 @@ export const formatError = (error = <any>{}, returnNull = false) => {
   const { name } = originalError;
   if (!name || !isApolloError(originalError)) return returnVal;
 
-  if (_showLocations) {
+  if (originalError._showLocations) {
     const { locations, path } = error;
-    originalError.locations = locations;
-    originalError.path = path;
+    originalError = {
+      ...originalError,
+      locations,
+      path
+    }
   }
 
   return originalError.serialize();
