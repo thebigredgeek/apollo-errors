@@ -1,4 +1,11 @@
 
+1.7.0 / 2018-02-22
+==================
+
+  * Misc: Refactored in TypeScript (#19, #22, @iamdanthdev, @lakhansamani)
+  * Fix: Fix createError interface post-typescript refactor (@thebigredgeek)
+  * Fix: Fix showPath option to correctly toggle error path exposure regardless of showLocation state (@thebigredgeek)
+
 1.5.1 / 2017-09-07
 ==================
 

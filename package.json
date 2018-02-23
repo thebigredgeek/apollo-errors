@@ -1,6 +1,6 @@
 {
 	"name": "apollo-errors",
-	"version": "1.6.3",
+	"version": "1.7.0",
 	"description": "Machine-readable custom errors for Apollostack's GraphQL server",
 	"main": "dist/index.js",
 	"scripts": {
