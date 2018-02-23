@@ -1,4 +1,9 @@
 
+1.7.1 / 2018-02-22
+==================
+
+  * Fix: less ambiguity around data type (@thebigredgeek)
+
 1.7.0 / 2018-02-22
 ==================
 
