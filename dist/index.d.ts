@@ -2,7 +2,7 @@ import ExtendableError from 'extendable-error';
 export interface ErrorConfig {
     message: string;
     time_thrown?: string;
-    data?: any;
+    data?: object;
     options?: {
         showPath?: boolean;
         showLocations?: boolean;
@@ -12,7 +12,7 @@ export interface ErrorInfo {
     message: string;
     name: string;
     time_thrown: string;
-    data?: {};
+    data?: object;
     path?: string;
     locations?: any;
 }
@@ -20,7 +20,7 @@ export declare class ApolloError extends ExtendableError {
     name: string;
     message: string;
     time_thrown: string;
-    data: any;
+    data: object;
     path: any;
     locations: any;
     _showLocations: boolean;

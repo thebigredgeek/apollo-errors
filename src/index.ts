@@ -7,7 +7,7 @@ const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 export interface ErrorConfig {
   message: string;
   time_thrown?: string;
-  data?: any;
+  data?: object;
   options?: {
     showPath?: boolean;
     showLocations?: boolean;
@@ -18,7 +18,7 @@ export interface ErrorInfo {
   message: string;
   name: string;
   time_thrown: string;
-  data?: {};
+  data?: object;
   path?: string;
   locations?: any;
 }
@@ -27,7 +27,7 @@ export class ApolloError extends ExtendableError {
   name: string;
   message: string;
   time_thrown: string;
-  data: any;
+  data: object;
   path: any;
   locations: any;
   _showLocations: boolean = false;
@@ -39,8 +39,9 @@ export class ApolloError extends ExtendableError {
     const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
     const m = (arguments[2] && arguments[2].message) || '';
     const configData = (arguments[2] && arguments[2].data) || {};
-    const d = { ...this.data, ...configData }
-    const opts = ((arguments[2] && arguments[2].options) || {})
+    const d = { ...this.data, ...configData };
+    const opts = ((arguments[2] && arguments[2].options) || {});
+
 
     this.name = name;
     this.message = m;
