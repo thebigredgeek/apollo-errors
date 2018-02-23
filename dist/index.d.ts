@@ -12,9 +12,9 @@ export interface ErrorInfo {
     message: string;
     name: string;
     time_thrown: string;
-    data: string;
-    path: string;
-    locations: string;
+    data?: {};
+    path?: string;
+    locations?: any;
 }
 export declare class ApolloError extends ExtendableError {
     name: string;
@@ -24,9 +24,10 @@ export declare class ApolloError extends ExtendableError {
     path: any;
     locations: any;
     _showLocations: boolean;
+    _showPath: boolean;
     constructor(name: string, config: ErrorConfig);
     serialize(): ErrorInfo;
 }
 export declare const isInstance: (e: any) => boolean;
-export declare const createError: (name: string, config: ErrorConfig) => ApolloError;
+export declare const createError: (name: string, config: ErrorConfig) => any;
 export declare const formatError: (error: any, returnNull?: boolean) => ErrorInfo;

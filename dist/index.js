@@ -27,6 +27,7 @@ var ApolloError = /** @class */ (function (_super) {
     function ApolloError(name, config) {
         var _this = _super.call(this, (arguments[2] && arguments[2].message) || '') || this;
         _this._showLocations = false;
+        _this._showPath = false;
         var t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
         var m = (arguments[2] && arguments[2].message) || '';
         var configData = (arguments[2] && arguments[2].data) || {};
@@ -37,10 +38,11 @@ var ApolloError = /** @class */ (function (_super) {
         _this.time_thrown = t;
         _this.data = d;
         _this._showLocations = !!opts.showLocations;
+        _this._showPath = !!opts.showPath;
         return _this;
     }
     ApolloError.prototype.serialize = function () {
-        var _a = this, name = _a.name, message = _a.message, time_thrown = _a.time_thrown, data = _a.data, _showLocations = _a._showLocations, path = _a.path, locations = _a.locations;
+        var _a = this, name = _a.name, message = _a.message, time_thrown = _a.time_thrown, data = _a.data, _showLocations = _a._showLocations, _showPath = _a._showPath, path = _a.path, locations = _a.locations;
         var error = {
             message: message,
             name: name,
@@ -51,6 +53,8 @@ var ApolloError = /** @class */ (function (_super) {
         };
         if (_showLocations) {
             error.locations = locations;
+        }
+        if (_showPath) {
             error.path = path;
         }
         return error;
@@ -62,7 +66,7 @@ exports.isInstance = function (e) { return e instanceof ApolloError; };
 exports.createError = function (name, config) {
     assert(isObject(config), 'createError requires a config object as the second parameter');
     assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
-    return new ApolloError(name, config);
+    return ApolloError.bind(null, name, config);
 };
 exports.formatError = function (error, returnNull) {
     if (returnNull === void 0) { returnNull = false; }
@@ -72,10 +76,12 @@ exports.formatError = function (error, returnNull) {
     var name = originalError.name;
     if (!name || !exports.isInstance(originalError))
         return returnNull ? null : error;
-    var time_thrown = originalError.time_thrown, message = originalError.message, data = originalError.data, _showLocations = originalError._showLocations;
+    var time_thrown = originalError.time_thrown, message = originalError.message, data = originalError.data, _showLocations = originalError._showLocations, _showPath = originalError._showPath;
+    var locations = error.locations, path = error.path;
     if (_showLocations) {
-        var locations = error.locations, path = error.path;
         originalError.locations = locations;
+    }
+    if (_showPath) {
         originalError.path = path;
     }
     return originalError.serialize();

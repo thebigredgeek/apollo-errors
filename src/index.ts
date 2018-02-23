@@ -31,6 +31,7 @@ export class ApolloError extends ExtendableError {
   path: any;
   locations: any;
   _showLocations: boolean = false;
+  _showPath: boolean = false;
 
   constructor(name: string, config: ErrorConfig) {
     super((arguments[2] && arguments[2].message) || '');
@@ -46,10 +47,11 @@ export class ApolloError extends ExtendableError {
     this.time_thrown = t;
     this.data = d;
     this._showLocations = !!opts.showLocations;
+    this._showPath = !!opts.showPath;
   }
 
   serialize(): ErrorInfo {
-    const { name, message, time_thrown, data, _showLocations, path, locations } = this;
+    const { name, message, time_thrown, data, _showLocations, _showPath, path, locations } = this;
 
     let error: ErrorInfo = {
       message,
@@ -62,6 +64,9 @@ export class ApolloError extends ExtendableError {
 
     if (_showLocations) {
       error.locations = locations;
+    }
+
+    if (_showPath) {
       error.path = path;
     }
 
@@ -74,7 +79,7 @@ export const isInstance = e => e instanceof ApolloError;
 export const createError = (name: string, config: ErrorConfig) => {
   assert(isObject(config), 'createError requires a config object as the second parameter');
   assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
-  return new ApolloError(name, config);
+  return ApolloError.bind(null, name, config);
 };
 
 export const formatError = (error, returnNull = false): ErrorInfo => {
@@ -86,11 +91,14 @@ export const formatError = (error, returnNull = false): ErrorInfo => {
 
   if (!name || !isInstance(originalError)) return returnNull ? null : error;
 
-  const { time_thrown, message, data, _showLocations } = originalError;
+  const { time_thrown, message, data, _showLocations, _showPath } = originalError;
+  const { locations, path } = error;
 
   if (_showLocations) {
-    const { locations, path } = error;
     originalError.locations = locations;
+  }
+
+  if (_showPath) {
     originalError.path = path;
   }
 
