@@ -57,12 +57,12 @@ var ApolloError = /** @class */ (function (_super) {
     };
     return ApolloError;
 }(extendable_error_1.default));
+exports.ApolloError = ApolloError;
 exports.isInstance = function (e) { return e instanceof ApolloError; };
 exports.createError = function (name, config) {
     assert(isObject(config), 'createError requires a config object as the second parameter');
     assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
-    var e = ApolloError.bind(null, name, config);
-    return e;
+    return new ApolloError(name, config);
 };
 exports.formatError = function (error, returnNull) {
     if (returnNull === void 0) { returnNull = false; }

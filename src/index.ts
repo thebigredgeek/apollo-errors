@@ -4,29 +4,41 @@ import ExtendableError from 'extendable-error';
 const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 
-interface ErrorConfig {
+export interface ErrorConfig {
   message: string;
-  time_thrown: string;
-  data: any,
-  options: any,
+  time_thrown?: string;
+  data?: any;
+  options?: {
+    showPath?: boolean;
+    showLocations?: boolean;
+  };
 }
 
-class ApolloError extends ExtendableError {
+export interface ErrorInfo {
+  message: string;
+  name: string;
+  time_thrown: string;
+  data?: {};
+  path?: string;
+  locations?: any;
+}
+
+export class ApolloError extends ExtendableError {
   name: string;
   message: string;
   time_thrown: string;
   data: any;
   path: any;
   locations: any;
-  _showLocations: boolean=false;
+  _showLocations: boolean = false;
 
-  constructor (name:string, config: ErrorConfig) {
+  constructor(name: string, config: ErrorConfig) {
     super((arguments[2] && arguments[2].message) || '');
 
     const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
     const m = (arguments[2] && arguments[2].message) || '';
     const configData = (arguments[2] && arguments[2].data) || {};
-    const d = {...this.data, ...configData}
+    const d = { ...this.data, ...configData }
     const opts = ((arguments[2] && arguments[2].options) || {})
 
     this.name = name;
@@ -35,10 +47,11 @@ class ApolloError extends ExtendableError {
     this.data = d;
     this._showLocations = !!opts.showLocations;
   }
-  serialize () {
+
+  serialize(): ErrorInfo {
     const { name, message, time_thrown, data, _showLocations, path, locations } = this;
 
-    let error = {
+    let error: ErrorInfo = {
       message,
       name,
       time_thrown,
@@ -46,24 +59,25 @@ class ApolloError extends ExtendableError {
       path,
       locations
     };
+
     if (_showLocations) {
       error.locations = locations;
       error.path = path;
     }
+
     return error;
   }
 }
 
 export const isInstance = e => e instanceof ApolloError;
 
-export const createError = (name:string, config: ErrorConfig) => {
+export const createError = (name: string, config: ErrorConfig) => {
   assert(isObject(config), 'createError requires a config object as the second parameter');
   assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
-  const e = ApolloError.bind(null, name, config);
-  return e;
+  return new ApolloError(name, config);
 };
 
-export const formatError = (error, returnNull = false) => {
+export const formatError = (error, returnNull = false): ErrorInfo => {
   const originalError = error ? error.originalError || error : null;
 
   if (!originalError) return returnNull ? null : error;

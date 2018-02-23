@@ -6,8 +6,8 @@
     "sourceMap": true,
     "removeComments": false,
     "noImplicitAny": false,
-    "allowJs": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "declaration": true
   },
   "include": [
     "./src/**/*"
