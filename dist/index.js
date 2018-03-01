@@ -24,21 +24,19 @@ var isString = function (d) { return Object.prototype.toString.call(d) === '[obj
 var isObject = function (d) { return Object.prototype.toString.call(d) === '[object Object]'; };
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
-    function ApolloError(name, config) {
-        var _this = _super.call(this, (arguments[2] && arguments[2].message) || '') || this;
+    function ApolloError(name, baseConfig, config) {
+        if (baseConfig === void 0) { baseConfig = {}; }
+        if (config === void 0) { config = {}; }
+        var _this = _super.call(this, config.message || baseConfig.message || '') || this;
         _this._showLocations = false;
         _this._showPath = false;
-        var t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-        var m = (arguments[2] && arguments[2].message) || '';
-        var configData = (arguments[2] && arguments[2].data) || {};
-        var d = __assign({}, _this.data, configData);
-        var opts = ((arguments[2] && arguments[2].options) || {});
+        var options = __assign({}, config.options, baseConfig.options);
         _this.name = name;
-        _this.message = m;
-        _this.time_thrown = t;
-        _this.data = d;
-        _this._showLocations = !!opts.showLocations;
-        _this._showPath = !!opts.showPath;
+        _this.message = config.message || baseConfig.message || '';
+        _this.time_thrown = config.time_thrown || baseConfig.time_thrown || new Date().toISOString();
+        _this.data = __assign({}, baseConfig.data, config.data);
+        _this._showLocations = !!options.showLocations;
+        _this._showPath = !!options.showPath;
         return _this;
     }
     ApolloError.prototype.serialize = function () {

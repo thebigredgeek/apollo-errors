@@ -1,6 +1,6 @@
 import ExtendableError from 'extendable-error';
 export interface ErrorConfig {
-    message: string;
+    message?: string;
     time_thrown?: string;
     data?: object;
     options?: {
@@ -25,7 +25,7 @@ export declare class ApolloError extends ExtendableError {
     locations: any;
     _showLocations: boolean;
     _showPath: boolean;
-    constructor(name: string, config: ErrorConfig);
+    constructor(name: string, baseConfig?: ErrorConfig, config?: ErrorConfig);
     serialize(): ErrorInfo;
 }
 export declare const isInstance: (e: any) => boolean;
