@@ -5,7 +5,7 @@ const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
 
 export interface ErrorConfig {
-  message: string;
+  message?: string;
   time_thrown?: string;
   data?: object;
   options?: {
@@ -33,22 +33,17 @@ export class ApolloError extends ExtendableError {
   _showLocations: boolean = false;
   _showPath: boolean = false;
 
-  constructor(name: string, config: ErrorConfig) {
-    super((arguments[2] && arguments[2].message) || '');
-
-    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[2] && arguments[2].message) || '';
-    const configData = (arguments[2] && arguments[2].data) || {};
-    const d = { ...this.data, ...configData };
-    const opts = ((arguments[2] && arguments[2].options) || {});
-
+  constructor(name: string, baseConfig: ErrorConfig = {}, config: ErrorConfig = {}) {
+    super(config.message || baseConfig.message || '');
+    
+    const options = {...config.options, ...baseConfig.options};
 
     this.name = name;
-    this.message = m;
-    this.time_thrown = t;
-    this.data = d;
-    this._showLocations = !!opts.showLocations;
-    this._showPath = !!opts.showPath;
+    this.message = config.message || baseConfig.message || '';
+    this.time_thrown = config.time_thrown || baseConfig.time_thrown || new Date().toISOString();
+    this.data = {...baseConfig.data, ...config.data};
+    this._showLocations = !!options.showLocations;
+    this._showPath = !!options.showPath;
   }
 
   serialize(): ErrorInfo {
