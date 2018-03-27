@@ -33,14 +33,17 @@ export class ApolloError extends ExtendableError {
   _showLocations: boolean = false;
   _showPath: boolean = false;
 
-  constructor(name: string, config: ErrorConfig) {
-    super((arguments[2] && arguments[2].message) || '');
+  constructor(name: string, config: ErrorConfig, newConfig?: ErrorConfig) {
+    super((newConfig && newConfig.message) || (config && config.message) || '');
 
-    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[2] && arguments[2].message) || '';
-    const configData = (arguments[2] && arguments[2].data) || {};
-    const d = { ...this.data, ...configData };
-    const opts = ((arguments[2] && arguments[2].options) || {});
+    const t = (newConfig && newConfig.time_thrown) || (config && config.time_thrown) || (new Date()).toISOString();
+    const m = (newConfig && newConfig.message) || (config && config.message) || '';
+    const newConfigData = (newConfig && newConfig.data) || {};
+    const configData = (config && config.data) || {};
+    const d = { ...this.data, ...configData, ...newConfigData };
+    const newConfigOptions = (newConfig && newConfig.options) || {};
+    const configOptions = (config && config.options) || {};
+    const opts = { ...configOptions, ...newConfigOptions };
 
 
     this.name = name;
