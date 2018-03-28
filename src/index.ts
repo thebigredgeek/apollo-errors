@@ -33,14 +33,17 @@ export class ApolloError extends ExtendableError {
   _showLocations: boolean = false;
   _showPath: boolean = false;
 
-  constructor(name: string, config: ErrorConfig) {
-    super((arguments[2] && arguments[2].message) || '');
+  // NOTE: The object passed to the Constructor is actually `ctorData`.
+  //       We are binding the constructor to the name and config object
+  //       for the first two parameters inside of `createError`
+  constructor(name: string, config: ErrorConfig, ctorData: any) {
+    super((ctorData && ctorData.message) || '');
 
-    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[2] && arguments[2].message) || '';
-    const configData = (arguments[2] && arguments[2].data) || {};
+    const t = (ctorData && ctorData.time_thrown) || (new Date()).toISOString();
+    const m = (ctorData && ctorData.message) || '';
+    const configData = (ctorData && ctorData.data) || {};
     const d = { ...this.data, ...configData };
-    const opts = ((arguments[2] && arguments[2].options) || {});
+    const opts = ((ctorData && ctorData.options) || {});
 
 
     this.name = name;
@@ -80,6 +83,9 @@ export const isInstance = e => e instanceof ApolloError;
 export const createError = (name: string, config: ErrorConfig) => {
   assert(isObject(config), 'createError requires a config object as the second parameter');
   assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
+  // NOTE: The first two parameters give to the constructor will always be name and config
+  //       Parameters passed to the constructor when `new` is invoked will be passed as
+  //       subsequent parameters.
   return ApolloError.bind(null, name, config);
 };
 

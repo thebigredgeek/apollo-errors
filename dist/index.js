@@ -24,15 +24,15 @@ var isString = function (d) { return Object.prototype.toString.call(d) === '[obj
 var isObject = function (d) { return Object.prototype.toString.call(d) === '[object Object]'; };
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
-    function ApolloError(name, config) {
-        var _this = _super.call(this, (arguments[2] && arguments[2].message) || '') || this;
+    function ApolloError(name, config, ctorData) {
+        var _this = _super.call(this, (ctorData && ctorData.message) || '') || this;
         _this._showLocations = false;
         _this._showPath = false;
-        var t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
-        var m = (arguments[2] && arguments[2].message) || '';
-        var configData = (arguments[2] && arguments[2].data) || {};
+        var t = (ctorData && ctorData.time_thrown) || (new Date()).toISOString();
+        var m = (ctorData && ctorData.message) || '';
+        var configData = (ctorData && ctorData.data) || {};
         var d = __assign({}, _this.data, configData);
-        var opts = ((arguments[2] && arguments[2].options) || {});
+        var opts = ((ctorData && ctorData.options) || {});
         _this.name = name;
         _this.message = m;
         _this.time_thrown = t;
