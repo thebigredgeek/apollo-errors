@@ -34,13 +34,13 @@ export class ApolloError extends ExtendableError {
   _showPath: boolean = false;
 
   constructor(name: string, config: ErrorConfig) {
-    super((arguments[1] && arguments[1].message) || '');
+    super((arguments[2] && arguments[2].message) || '');
 
-    const t = (arguments[1] && arguments[1].time_thrown) || (new Date()).toISOString();
-    const m = (arguments[1] && arguments[1].message) || '';
-    const configData = (arguments[1] && arguments[1].data) || {};
+    const t = (arguments[2] && arguments[2].time_thrown) || (new Date()).toISOString();
+    const m = (arguments[2] && arguments[2].message) || '';
+    const configData = (arguments[2] && arguments[2].data) || {};
     const d = { ...this.data, ...configData };
-    const opts = ((arguments[1] && arguments[1].options) || {});
+    const opts = ((arguments[2] && arguments[2].options) || {});
 
 
     this.name = name;
