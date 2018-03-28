@@ -36,14 +36,17 @@ export class ApolloError extends ExtendableError {
   // NOTE: The object passed to the Constructor is actually `ctorData`.
   //       We are binding the constructor to the name and config object
   //       for the first two parameters inside of `createError`
-  constructor(name: string, config: ErrorConfig, ctorData: any) {
-    super((ctorData && ctorData.message) || '');
+  constructor(name: string, config: ErrorConfig, ctorConfig: ErrorConfig) {
+    super((ctorConfig && ctorConfig.message) || (config && config.message) || '');
 
-    const t = (ctorData && ctorData.time_thrown) || (new Date()).toISOString();
-    const m = (ctorData && ctorData.message) || '';
-    const configData = (ctorData && ctorData.data) || {};
-    const d = { ...this.data, ...configData };
-    const opts = ((ctorData && ctorData.options) || {});
+    const t = (ctorConfig && ctorConfig.time_thrown) || (config && config.time_thrown) || (new Date()).toISOString();
+    const m = (ctorConfig && ctorConfig.message) || (config && config.message) || '';
+    const ctorData = (ctorConfig && ctorConfig.data) || {};
+    const configData = (config && config.data) || {};
+    const d = { ...this.data, ...configData, ...ctorData };
+    const ctorOptions = (ctorConfig && ctorConfig.options) || {};
+    const configOptions = (config && config.options) || {};
+    const opts = { ...configOptions, ...ctorOptions };
 
 
     this.name = name;
