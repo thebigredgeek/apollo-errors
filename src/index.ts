@@ -29,6 +29,7 @@ export class ApolloError extends ExtendableError {
   message: string;
   time_thrown: string;
   data: object;
+  internalData: object;
   path: any;
   locations: any;
   _showLocations: boolean = false;
@@ -43,8 +44,11 @@ export class ApolloError extends ExtendableError {
     const t = (ctorConfig && ctorConfig.time_thrown) || (config && config.time_thrown) || (new Date()).toISOString();
     const m = (ctorConfig && ctorConfig.message) || (config && config.message) || '';
     const ctorData = (ctorConfig && ctorConfig.data) || {};
+    const ctorInternalData = (ctorConfig && ctorConfig.internalData) || {}
     const configData = (config && config.data) || {};
+    const configInternalData = (config && config.internalData) || {}
     const d = { ...this.data, ...configData, ...ctorData };
+    const id = { ...this.internalData, ...configInternalData, ...ctorInternalData}
     const ctorOptions = (ctorConfig && ctorConfig.options) || {};
     const configOptions = (config && config.options) || {};
     const opts = { ...configOptions, ...ctorOptions };
@@ -54,6 +58,7 @@ export class ApolloError extends ExtendableError {
     this.message = m;
     this.time_thrown = t;
     this.data = d;
+    this.internalData = id;
     this._showLocations = !!opts.showLocations;
     this._showPath = !!opts.showPath;
   }

@@ -147,6 +147,9 @@ describe('formatError', () => {
       });
 
       const e = new FooError();
+      expect(e.internalData).to.to.eql({
+        secret: 'SQL ERROR'
+      })
       const s = formatError(e);
       expect(s.internalData).to.eq(undefined)
     })
