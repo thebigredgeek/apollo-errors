@@ -137,4 +137,18 @@ describe('formatError', () => {
       });
     });
   });
+  context('error has internalData', () => {
+    it('does not include the internalData property', () => {
+      const FooError = createError('FooError', {
+        message: 'A foo error has occurred',
+        internalData: {
+          secret: 'SQL ERROR'
+        }
+      });
+
+      const e = new FooError();
+      const s = formatError(e);
+      expect(s.internalData).to.eq(undefined)
+    })
+  })
 });

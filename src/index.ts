@@ -8,6 +8,7 @@ export interface ErrorConfig {
   message: string;
   time_thrown?: string;
   data?: object;
+  internalData?: object;
   options?: {
     showPath?: boolean;
     showLocations?: boolean;
