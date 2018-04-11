@@ -25,7 +25,7 @@ export declare class ApolloError extends ExtendableError {
     locations: any;
     _showLocations: boolean;
     _showPath: boolean;
-    constructor(name: string, config: ErrorConfig, ctorData: any);
+    constructor(name: string, config: ErrorConfig, ctorConfig: ErrorConfig);
     serialize(): ErrorInfo;
 }
 export declare const isInstance: (e: any) => boolean;

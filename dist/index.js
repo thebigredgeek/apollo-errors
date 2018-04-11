@@ -24,15 +24,21 @@ var isString = function (d) { return Object.prototype.toString.call(d) === '[obj
 var isObject = function (d) { return Object.prototype.toString.call(d) === '[object Object]'; };
 var ApolloError = /** @class */ (function (_super) {
     __extends(ApolloError, _super);
-    function ApolloError(name, config, ctorData) {
-        var _this = _super.call(this, (ctorData && ctorData.message) || '') || this;
+    // NOTE: The object passed to the Constructor is actually `ctorData`.
+    //       We are binding the constructor to the name and config object
+    //       for the first two parameters inside of `createError`
+    function ApolloError(name, config, ctorConfig) {
+        var _this = _super.call(this, (ctorConfig && ctorConfig.message) || (config && config.message) || '') || this;
         _this._showLocations = false;
         _this._showPath = false;
-        var t = (ctorData && ctorData.time_thrown) || (new Date()).toISOString();
-        var m = (ctorData && ctorData.message) || '';
-        var configData = (ctorData && ctorData.data) || {};
-        var d = __assign({}, _this.data, configData);
-        var opts = ((ctorData && ctorData.options) || {});
+        var t = (ctorConfig && ctorConfig.time_thrown) || (config && config.time_thrown) || (new Date()).toISOString();
+        var m = (ctorConfig && ctorConfig.message) || (config && config.message) || '';
+        var ctorData = (ctorConfig && ctorConfig.data) || {};
+        var configData = (config && config.data) || {};
+        var d = __assign({}, _this.data, configData, ctorData);
+        var ctorOptions = (ctorConfig && ctorConfig.options) || {};
+        var configOptions = (config && config.options) || {};
+        var opts = __assign({}, configOptions, ctorOptions);
         _this.name = name;
         _this.message = m;
         _this.time_thrown = t;
@@ -66,6 +72,9 @@ exports.isInstance = function (e) { return e instanceof ApolloError; };
 exports.createError = function (name, config) {
     assert(isObject(config), 'createError requires a config object as the second parameter');
     assert(isString(config.message), 'createError requires a "message" property on the config object passed as the second parameter');
+    // NOTE: The first two parameters give to the constructor will always be name and config
+    //       Parameters passed to the constructor when `new` is invoked will be passed as
+    //       subsequent parameters.
     return ApolloError.bind(null, name, config);
 };
 exports.formatError = function (error, returnNull) {

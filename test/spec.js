@@ -40,6 +40,25 @@ describe('createError', () => {
         foo: 'bar'
       });
     });
+    it('uses original message and merges original data', () => {
+      const FooError = createError('FooError', {
+        message: 'A foo error has occurred',
+        data: {
+          hello: 'world'
+        },
+        options: {
+          showLocations: false,
+          showPath: true
+        }
+      });
+      const e = new FooError({data: {foo: 'bar'}});
+
+      const { message, name, time_thrown, data } = e.serialize();
+      expect(message).to.equal('A foo error has occurred');
+      expect(name).to.equal('FooError');
+      expect(time_thrown).to.equal(e.time_thrown);
+      expect(data).to.eql({ hello: 'world', foo: 'bar' });
+    });
   });
   context('when missing a config as the second parameter', () => {
     it('throws an assertion error with a useful message', () => {
