@@ -1,4 +1,10 @@
 
+1.8.0 / 2018-04-10
+==================
+
+  * Fix: Wrong and missing data being returned in errors (@thebigredgeek)
+  * Fix: Reverted breaking change regarding spec compliance (@thebigredgeek)
+
 1.7.1 / 2018-02-22
 ==================
 
