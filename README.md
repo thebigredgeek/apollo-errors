@@ -58,6 +58,9 @@ const resolverThatThrowsError = (root, params, context) => {
   throw new FooError({
     data: {
       something: 'important'
+    },
+    internalData: {
+      error: `The SQL server died.`
     }
   });
 }
@@ -83,18 +86,39 @@ Witness glorious simplicity:
 }
 ```
 
+The `internalData` property is meant for data you want to store on the error object (e.g. for logging), but not send out to your end users.
+You can utilize this data for logging purposes.
+
+```js
+import { isInstance as isApolloErrorInstance, formatError as formatApolloError } from 'apollo-errors';
+
+function formatError(error) {
+  const { originialError } = error;
+  if (isApolloErrorInstance(originalError)) {
+    // log internalData to stdout but not include it in the formattedError
+    console.log(JSON.stringify({
+      type: `error`,
+      data: originalError.data,
+      internalData: originalError.internalData
+    }));
+  }
+  return formatApolloError(error)
+}
+
+``` 
+
 ## API
 
-### ApolloError ({ [time_thrown: String, data: Object, message: String ]})
+### ApolloError ({ [time_thrown: String, data: Object, internalData: object message: String ]})
 
 Creates a new ApolloError object.  Note that `ApolloError` in this context refers
 to an error class created and returned by `createError` documented below.  Error can be
-initialized with a custom `time_thrown` ISODate (default is current ISODate), `data` object (which will be merged with data specified through `createError`, if it exists), and `message` (which will override the message specified through `createError`).
+initialized with a custom `time_thrown` ISODate (default is current ISODate), `data` object (which will be merged with data specified through `createError`, if it exists), `internalData` object (which will be merged with internalData specified trough `createError`) and `message` (which will override the message specified through `createError`).
 
 
-### createError(name, {message: String, [data: Object, options: Object]}): ApolloError
+### createError(name, {message: String, [data: Object, internalData: object, options: Object]}): ApolloError
 
-Creates and returns an error class with the given `name` and `message`, optionally initialized with the given `data` and `options`.  `data` passed to `createError` will later be merged with any data passed to the constructor.
+Creates and returns an error class with the given `name` and `message`, optionally initialized with the given `data`, `internalData` and `options`.  `data` and `internalData` passed to `createError` will later be merged with any data passed to the constructor.
 
 #### Options (default):
 
