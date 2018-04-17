@@ -1,4 +1,9 @@
 
+1.9.0 / 2018-04-17
+==================
+
+  * Feature: Added `internalData` property for non-serialized context data (@n1ru4l, #41)
+
 1.8.0 / 2018-04-10
 ==================
 
