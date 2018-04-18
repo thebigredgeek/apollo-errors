@@ -109,7 +109,7 @@ function formatError(error) {
 
 ## API
 
-### ApolloError ({ [time_thrown: String, data: Object, internalData: object message: String ]})
+### ApolloError ({ [time_thrown: String, data: Object, internalData: object, message: String ]})
 
 Creates a new ApolloError object.  Note that `ApolloError` in this context refers
 to an error class created and returned by `createError` documented below.  Error can be
