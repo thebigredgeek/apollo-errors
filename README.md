@@ -93,7 +93,7 @@ You can utilize this data for logging purposes.
 import { isInstance as isApolloErrorInstance, formatError as formatApolloError } from 'apollo-errors';
 
 function formatError(error) {
-  const { originialError } = error;
+  const { originalError } = error;
   if (isApolloErrorInstance(originalError)) {
     // log internalData to stdout but not include it in the formattedError
     console.log(JSON.stringify({
