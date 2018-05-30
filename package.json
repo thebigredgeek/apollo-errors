@@ -26,7 +26,8 @@
 	"homepage": "https://github.com/thebigredgeek/apollo-errors#readme",
 	"dependencies": {
 		"assert": "^1.4.1",
-		"extendable-error": "^0.1.5"
+		"extendable-error": "^0.1.5",
+		"lodash.get": "^4.4.2"
 	},
 	"devDependencies": {
 		"babel-cli": "^6.18.0",
