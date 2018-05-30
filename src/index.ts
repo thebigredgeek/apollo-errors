@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import ExtendableError from 'extendable-error';
+import { get } from 'lodash';
 
 const isString = d => Object.prototype.toString.call(d) === '[object String]';
 const isObject = d => Object.prototype.toString.call(d) === '[object Object]';
@@ -98,8 +99,15 @@ export const createError = (name: string, config: ErrorConfig) => {
   return ApolloError.bind(null, name, config);
 };
 
+const getOriginalError = (error) => {
+  const localError = get(error, 'originalError', error)
+  const remoteError =  get(localError,'errors[0].originalError', null);
+
+  return remoteError ? remoteError : localError;
+}
+
 export const formatError = (error, returnNull = false): ErrorInfo => {
-  const originalError = error ? error.originalError || error : null;
+  const originalError = getOriginalError(error);
 
   if (!originalError) return returnNull ? null : error;
 

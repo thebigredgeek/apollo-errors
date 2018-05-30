@@ -20,6 +20,7 @@ var __assign = (this && this.__assign) || Object.assign || function(t) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var assert = require("assert");
 var extendable_error_1 = require("extendable-error");
+var lodash_1 = require("lodash");
 var isString = function (d) { return Object.prototype.toString.call(d) === '[object String]'; };
 var isObject = function (d) { return Object.prototype.toString.call(d) === '[object Object]'; };
 var ApolloError = /** @class */ (function (_super) {
@@ -81,9 +82,14 @@ exports.createError = function (name, config) {
     //       subsequent parameters.
     return ApolloError.bind(null, name, config);
 };
+var getOriginalError = function (error) {
+    var localError = lodash_1.get(error, 'originalError', error);
+    var remoteError = lodash_1.get(localError, 'errors[0].originalError', null);
+    return remoteError ? remoteError : localError;
+};
 exports.formatError = function (error, returnNull) {
     if (returnNull === void 0) { returnNull = false; }
-    var originalError = error ? error.originalError || error : null;
+    var originalError = getOriginalError(error);
     if (!originalError)
         return returnNull ? null : error;
     var name = originalError.name;

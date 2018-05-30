@@ -113,6 +113,27 @@ describe('formatError', () => {
         expect(s).to.eql(e.serialize());
       });
     });
+    it('returns the serialized form of the real error when its a remote error', () => {
+      const FooError = createError('FooError', {
+        message: 'A foo error has occurred'
+      });
+
+      const e = new FooError({
+        message: 'A foo 2.0 error has occurred',
+        data: {
+          oh: 'shit'
+        }
+      });
+      const s = formatError({
+        originalError: {
+          errors: [
+            {
+              originalError: e
+            }
+          ]
+        }
+      }, false);
+    })
   });
   context('second parameter is truthy', () => {
     context('error is not known', () => {
