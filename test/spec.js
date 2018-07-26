@@ -31,7 +31,7 @@ describe('createError', () => {
         },
       });
 
-      const { message, name, time_thrown, data } = e.serialize();
+      const { message, extensions: { name, time_thrown, data } } = e.serialize();
       expect(message).to.equal('A foo 2.0 error has occurred');
       expect(name).to.equal('FooError');
       expect(time_thrown).to.equal(e.time_thrown);
@@ -53,7 +53,7 @@ describe('createError', () => {
       });
       const e = new FooError({data: {foo: 'bar'}});
 
-      const { message, name, time_thrown, data } = e.serialize();
+      const { message, extensions: { name, time_thrown, data } } = e.serialize();
       expect(message).to.equal('A foo error has occurred');
       expect(name).to.equal('FooError');
       expect(time_thrown).to.equal(e.time_thrown);
