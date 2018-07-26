@@ -78,8 +78,10 @@ Witness glorious simplicity:
       "message":"A foo error has occurred",
       "name":"FooError",
       "time_thrown":"2016-11-11T00:40:50.954Z",
-      "data":{
-        "something": "important"
+      "extensions" : {
+        "data": {
+          "something": "important"
+        }
       }
     }
   ]
