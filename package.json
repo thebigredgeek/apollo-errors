@@ -25,7 +25,7 @@
 	},
 	"homepage": "https://github.com/thebigredgeek/apollo-errors#readme",
 	"dependencies": {
-		"assert": "^1.4.1",
+		"assert": "^2.0.0",
 		"extendable-error": "^0.1.5"
 	},
 	"devDependencies": {
