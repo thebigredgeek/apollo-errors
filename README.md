@@ -3,7 +3,7 @@ Machine-readable custom errors for Apollostack's GraphQL server
 
 [![NPM](https://nodei.co/npm/apollo-errors.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/apollo-errors/)
 
-[![CircleCI](https://circleci.com/gh/thebigredgeek/apollo-errors.svg?style=shield)](https://circleci.com/gh/thebigredgeek/apollo-errors/tree/master)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
+[![CircleCI](https://circleci.com/gh/boltsource/apollo-errors.svg?style=shield)](https://circleci.com/gh/thebigredgeek/apollo-errors/tree/master)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/badge.svg?style=beer-square)](https://beerpay.io/thebigredgeek/apollo-errors)  [![Beerpay](https://beerpay.io/thebigredgeek/apollo-errors/make-wish.svg?style=flat-square)](https://beerpay.io/thebigredgeek/apollo-errors?focus=wish)
 
 ## Example from Apollo Day
 
