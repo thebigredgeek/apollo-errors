@@ -1,4 +1,3 @@
-version: 2
 workflows:
   version: 2
   node-multi-build:
@@ -7,6 +6,7 @@ workflows:
       - node-v8
       - node-v10
       - node-v12
+version: 2
 jobs:
   node-base: &node-base
     docker:
