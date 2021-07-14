@@ -2,7 +2,6 @@ workflows:
   version: 2
   node-multi-build:
     jobs:
-      - node-v6
       - node-v8
       - node-v10
       - node-v12
@@ -37,10 +36,6 @@ jobs:
           key: npm-cache-{{ .Branch }}-{{ .Environment.CIRCLE_JOB }}-{{ checksum "package.json" }}
           paths:
             - ~/.npm/_cacache
-  node-v6:
-    <<: *node-base
-    docker:
-      - image: circleci/node:6
   node-v8:
     <<: *node-base
     docker:
