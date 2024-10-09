@@ -42,7 +42,7 @@
 		"eslint-plugin-babel": "3.3.0",
 		"mocha": "3.5.3",
 		"rimraf": "2.6.3",
-		"typescript": "2.9.2"
+		"typescript": "5.6.3"
 	},
 	"typings": "dist/index.d.ts"
 }
